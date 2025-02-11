@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header bg-primary text-white">
+            <h4>Student Profile</h4>
+        </div>
+        <div class="card-body">
+            <p><strong>Name:</strong> {{ student.user.get_full_name }}</p>
+            <p><strong>Email:</strong> {{ student.user.email }}</p>
+            <p><strong>Phone:</strong> {{ student.phone }}</p>
+            <p><strong>Address:</strong> {{ student.address }}</p>
+            <p><strong>Course:</strong> {{ student.course }}</p>
+
+            {% if fee_details %}
+            <h5 class="mt-4">Fee Details</h5>
+            <p><strong>Total Fee:</strong> ₹{{ fee_details.total_fee }}</p>
+            <p><strong>Paid Amount:</strong> ₹{{ fee_details.paid_amount }}</p>
+            <p><strong>Due Amount:</strong> ₹{{ fee_details.total_fee|floatformat:2|add:-fee_details.paid_amount }}</p>
+            {% else %}
+            <p class="text-muted">No fee details available.</p>
+            {% endif %}
+        </div>
+    </div>
+    <a href="{% url 'view_fee_details_of_student' %}" class="btn btn-secondary mt-3">Back</a>
+</div>
+
+</body>
+</html>

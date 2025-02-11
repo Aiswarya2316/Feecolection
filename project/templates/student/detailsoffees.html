@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fee Details | Student</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+
+    <style>
+        body {
+            background-color:rgb(233, 233, 237);
+        }
+        .container {
+            max-width: 800px;
+            background: white;
+            padding: 25px;
+            margin-top: 30px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        .navbar {
+            padding: 18px;
+        }
+        .navbar-brand {
+            font-weight: bold;
+            color: #28a745 !important; /* Green */
+        }
+        .navbar-nav .nav-link {
+            color: #28a745 !important;
+            font-weight: 600;
+            transition: color 0.3s ease-in-out;
+        }
+        .navbar-nav .nav-link:hover {
+            color: #1e7e34 !important;
+        }
+        .table th, .table td {
+            text-align: center;
+        }
+        .due-amount {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">Fee Collection System</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="../detailsoffees">Fees Details</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../payment">Payment</a></li>
+                    <li class="nav-item"><a class="nav-link btn btn-danger text-white px-3" href="../logoutstudent">Logout</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h2 class="text-center text-primary mb-4">Student Fee Details</h2>
+        
+        <table class="table table-bordered">
+            <thead class="table-dark">
+                <tr>
+                    <th>Total Fee (₹)</th>
+                    <th>Paid Amount (₹)</th>
+                    <th>Due Amount (₹)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ total_fee }}</td>
+                    <td>{{ paid_amount }}</td>
+                    <td class="due-amount">{{ due_amount }}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="text-center mt-4">
+            <a href="../payment" class="btn btn-success">Make Payment</a>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment</title>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+</head>
+<body>
+    <h2>Pay Your Fees</h2>
+    <p>Total Due Amount: ₹{{ amount }}</p>
+
+
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+    function makePayment() {
+        var options = {
+            "key": "{{ razorpay_key }}",
+            "amount": "{{ amount }}" * 100,  // Convert to paise
+            "currency": "{{ currency }}",
+            "name": "Fee Payment",
+            "description": "Student Fee Payment",
+            "order_id": "{{ razorpay_order_id }}",
+            "handler": function (response) {
+                // Send data to Django backend for verification
+                fetch("{% url 'verify_payment' %}", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-CSRFToken": "{{ csrf_token }}"
+                    },
+                    body: JSON.stringify({
+                        razorpay_order_id: response.razorpay_order_id,
+                        razorpay_payment_id: response.razorpay_payment_id,
+                        razorpay_signature: response.razorpay_signature
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === "success") {
+                        alert("Payment successful!");
+                        window.location.href = "{% url 'payment_success' %}";
+                    } else {
+                        alert("Payment failed! Please try again.");
+                    }
+                });
+            }
+        };
+        var rzp = new Razorpay(options);
+        rzp.open();
+    }
+</script>
+
+<button onclick="makePayment()" class="btn btn-success">Pay Now</button>
+
+</body>
+</html>

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fee Details | Fee Collection System</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+
+    <style>
+        body {
+            background-color: #f4f7fc;
+        }
+        .navbar-brand {
+            font-weight: bold;
+            color: #28a745 !important; /* Green color */
+        }
+        .navbar-nav .nav-link {
+            color: #28a745 !important; /* Green color */
+            font-weight: 600;
+            transition: color 0.3s ease-in-out;
+        }
+        .navbar-nav .nav-link:hover {
+            color: #1e7e34 !important; /* Darker green on hover */
+        }
+        .container {
+            margin-top: 40px;
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            text-align: center;
+            color: #007bff;
+            margin-bottom: 20px;
+        }
+        .table {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .btn-primary {
+            display: block;
+            width: fit-content;
+            margin: 20px auto;
+            font-size: 16px;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="../">Fee Collection System</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="{% url 'add_fee_details_of_student' %}">Add Fee Details</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'view_fee_details_of_student' %}">View Fee Details</a></li>
+                    <li class="nav-item"><a class="nav-link btn btn-danger text-white px-3" href="{% url 'logout_owner' %}">Logout</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container">
+        <h2>Student Fee Details</h2>
+
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover text-center">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Student</th>
+                        <th>Total Fee (₹)</th>
+                        <th>Paid Amount (₹)</th>
+                        <th>Due Amount (₹)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for fee in fee_details %}
+                    <tr>
+                        <td>{{ fee.student.user.username }}</td>
+                        <td>{{ fee.total_fee }}</td>
+                        <td>{{ fee.paid_amount }}</td>
+                        <td class="{% if fee.due_amount > 0 %}text-danger{% else %}text-success{% endif %}">
+                            {{ fee.due_amount }}
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="4" class="text-muted">No fee details available.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <a href="{% url 'add_fee_details_of_student' %}" class="btn btn-primary">Add More Fee Details</a>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
