@@ -3,11 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fee Collection System</title>
-
-    <!-- Bootstrap CSS -->
+    <title>Add Fee Structure | Fee Collection System</title>
+    <!-- Bootstrap 5 CDN -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-
+    <!-- Custom CSS -->
     <style>
         body {
             background-color: #f4f7fc;
@@ -27,20 +26,27 @@
             background: linear-gradient(to right, #007bff, #0056b3);
             color: white;
             text-align: center;
-            padding: 80px 20px;
+            padding: 60px 20px;
         }
         .hero-section h1 {
-            font-size: 2.5rem;
+            font-size: 2rem;
             font-weight: bold;
         }
-        .hero-section p {
-            font-size: 1.2rem;
-            margin-top: 10px;
+        .form-container {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: 20px auto;
+        }
+        .form-label {
+            font-weight: bold;
         }
         .btn-primary {
             background-color: #007bff;
             border: none;
-            padding: 12px 24px;
+            padding: 12px 20px;
             font-size: 16px;
             font-weight: bold;
             border-radius: 8px;
@@ -49,22 +55,16 @@
         .btn-primary:hover {
             background-color: #0056b3;
         }
-        .info-section {
-            background: white;
-            border-radius: 12px;
-            padding: 40px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
         .footer {
             background: #222;
             color: white;
             padding: 15px;
             text-align: center;
+            margin-top: 30px;
         }
     </style>
 </head>
 <body>
-
     <!-- Navigation Bar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
@@ -77,44 +77,53 @@
                     <li class="nav-item"><a class="nav-link" href="../addfeedetailsofstudent">Add Fee Details</a></li>
                     <li class="nav-item"><a class="nav-link" href="../viewfeedetailsofstudent">View Fee Details</a></li>
                     <li class="nav-item"><a class="nav-link" href="../studentprofile">Student Profile</a></li>
-                    <li class="nav-item"><a class="nav-link" href="../addfeestructure">Add structure</a></li>
-                    <li class="nav-item"><a class="nav-link" href="../viewfeestructure">Fee structure</a></li>
-                    <li class="nav-item"><a class="nav-link btn btn-danger text-white px-3" href="../logoutowner">Owner Logout</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="../addfeestructure">Add Structure</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../viewfeestructure">Fee Structure</a></li>
+                    <li class="nav-item"><a class="nav-link btn btn-danger text-white px-3" href="../logoutowner">Logout</a></li>
                 </ul>
             </div>
         </div>
     </nav>
 
     <!-- Hero Section -->
-    <header class="hero-section">
-        <div class="container">
-            <h1>Welcome to the Fee Collection System</h1>
-            <p class="lead">Manage fee payments efficiently and securely.</p>
-        </div>
-    </header>
+    <div class="hero-section">
+        <h1>Add Fee Structure</h1>
+        <p>Fill in the details to add a new fee structure</p>
+    </div>
 
-    <!-- Main Section -->
-    <section class="container my-5">
-        <div class="row align-items-center">
-        
-            <div class="col-md-6">
-                <div class="info-section text-center">
-                    <h3>For Owners</h3>
-                    <p>Manage student records, set fee structures, and track payments.</p>
-                    <a href="{% url 'register_owner' %}" class="btn btn-primary me-2">Register as Owner</a>
-                    <a href="{% url 'login_owner' %}" class="btn btn-outline-primary">Login as Owner</a>
+    <!-- Form Section -->
+    <div class="container">
+        <div class="form-container">
+            <form method="POST">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label class="form-label">Course Name:</label>
+                    <input type="text" class="form-control" name="course" required>
                 </div>
-            </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Yearly Fees (₹):</label>
+                    <input type="number" class="form-control" name="yearly_amount" step="0.01" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Year:</label>
+                    <input type="number" class="form-control" name="year" value="{{ current_year }}" required>
+                </div>
+
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary">Add Fee Structure</button>
+                </div>
+            </form>
         </div>
-    </section>
+    </div>
 
     <!-- Footer -->
-    <footer class="footer">
-        <p>&copy; 2025 Fee Collection System. All Rights Reserved.</p>
-    </footer>
+    <div class="footer">
+        &copy; 2025 Fee Collection System. All rights reserved.
+    </div>
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
 </body>
 </html>

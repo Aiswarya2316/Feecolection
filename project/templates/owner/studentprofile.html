@@ -3,34 +3,112 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>All Students</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f4f7fc;
+        }
+        .navbar-brand {
+            font-weight: bold;
+        }
+        .navbar-nav .nav-link {
+            color: #28a745 !important; /* Green color */
+            font-weight: 600;
+            transition: color 0.3s ease-in-out;
+        }
+        .navbar-nav .nav-link:hover {
+            color: #1e7e34 !important; /* Darker green on hover */
+        }
+        .hero-section {
+            background: linear-gradient(to right, #007bff, #0056b3);
+            color: white;
+            text-align: center;
+            padding: 80px 20px;
+        }
+        .hero-section h1 {
+            font-size: 2.5rem;
+            font-weight: bold;
+        }
+        .hero-section p {
+            font-size: 1.2rem;
+            margin-top: 10px;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            border: none;
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 8px;
+            transition: background 0.3s ease-in-out;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+        .info-section {
+            background: white;
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        .footer {
+            background: #222;
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="../homeowner">Fee Collection System</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="{% url 'add_fee_details_of_student' %}">Add Fee Details</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'view_fee_details_of_student' %}">View Fee Details</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../studentprofile">Student Profile</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="../addfeestructure">Add Structure</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="../viewfeestructure">Fee Structure</a></li>
+                    <li class="nav-item"><a class="nav-link btn btn-danger text-white px-3" href="{% url 'logout_owner' %}">Logout</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
 
-{% block content %}
 <div class="container mt-5">
-    <div class="card">
-        <div class="card-header bg-primary text-white">
-            <h4>Student Profile</h4>
-        </div>
-        <div class="card-body">
-            <p><strong>Name:</strong> {{ student.user.get_full_name }}</p>
-            <p><strong>Email:</strong> {{ student.user.email }}</p>
-            <p><strong>Phone:</strong> {{ student.phone }}</p>
-            <p><strong>Address:</strong> {{ student.address }}</p>
-            <p><strong>Course:</strong> {{ student.course }}</p>
-
-            {% if fee_details %}
-            <h5 class="mt-4">Fee Details</h5>
-            <p><strong>Total Fee:</strong> ₹{{ fee_details.total_fee }}</p>
-            <p><strong>Paid Amount:</strong> ₹{{ fee_details.paid_amount }}</p>
-            <p><strong>Due Amount:</strong> ₹{{ fee_details.total_fee|floatformat:2|add:-fee_details.paid_amount }}</p>
-            {% else %}
-            <p class="text-muted">No fee details available.</p>
-            {% endif %}
-        </div>
-    </div>
-    <a href="{% url 'view_fee_details_of_student' %}" class="btn btn-secondary mt-3">Back</a>
+    <h2 class="text-center">All Students</h2>
+    <table class="table table-bordered mt-4">
+        <thead class="table-dark">
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Course</th>
+                <th>Contact</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for student in students %}
+            <tr>
+                <td>{{ student.user.username }}</td>
+                <td>{{ student.user.email }}</td>
+                <td>{{ student.course }}</td>
+                <td>{{ student.contact }}</td>
+                
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5" class="text-center text-muted">No students found.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    <a href="{% url 'home' %}" class="btn btn-primary">Back to Home</a>
 </div>
 
 </body>

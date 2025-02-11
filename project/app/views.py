@@ -123,15 +123,6 @@ def view_fee_details_of_student(request):
     return render(request, "owner/viewdetails.html", {"fee_details": fee_details})
 
 
-from django.shortcuts import render
-from .models import Student, FeeDetail
-
-def student_profile(request, id):
-    student =Student.objects.get(pk=id)
-    fee_details = FeeDetail.objects.filter(student=student).first()
-    return render(request, "owner/student_profile.html", {"student": student, "fee_details": fee_details})
-
-
 
 import razorpay
 from django.conf import settings
@@ -239,3 +230,75 @@ def verify_payment(request):
 
 def payment_success(request):
     return render(request, "student/payment_success.html")
+
+
+from django.shortcuts import render, get_object_or_404
+from django.contrib.auth.decorators import login_required
+from .models import Student
+
+@login_required
+def profile(request):
+    student = get_object_or_404(Student, user=request.user)
+    return render(request, 'student/profile.html', {'student': student})
+
+
+from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
+from .models import Student
+
+@login_required
+def studentprofile(request):
+    students = Student.objects.all()
+    return render(request, 'owner/studentprofile.html', {'students': students})
+
+
+from django.shortcuts import render, redirect
+from .models import FeeStructure
+from django.contrib import messages
+from datetime import datetime
+
+def addfeestructure(request):
+    if request.method == "POST":
+        course = request.POST.get("course")
+        yearly_amount = request.POST.get("yearly_amount")
+        year = request.POST.get("year")
+
+        if course and yearly_amount and year:
+            FeeStructure.objects.create(
+                course=course,
+                yearly_amount=yearly_amount,
+                year=year
+            )
+            messages.success(request, "Fee structure added successfully!")
+            return redirect("viewfeestructure")
+
+    return render(request, "owner/addfeestructure.html")
+
+
+
+from django.shortcuts import render
+from .models import FeeStructure
+from datetime import datetime
+
+def viewfeestructure(request):
+    fees = FeeStructure.objects.all()
+    return render(request, "owner/viewfeestructure.html",{'fees':fees})
+
+def viewstructure(request):
+    fees = FeeStructure.objects.all()
+    return render(request, "student/viewfeestructure.html",{'fees':fees})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

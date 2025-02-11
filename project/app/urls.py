@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import register_student, register_owner, login_student, login_owner,homestudent,homeowner,logout_owner,logout_student,add_fee_details_of_student, view_fee_details_of_student,detailsoffees,home,payment,payment_success,verify_payment,student_profile
+from .views import register_student, register_owner, login_student, login_owner,homestudent,homeowner,logout_owner,logout_student,add_fee_details_of_student, view_fee_details_of_student,detailsoffees,home,payment,payment_success,verify_payment,profile,studentprofile,addfeestructure,viewfeestructure,viewstructure
 
 urlpatterns = [
     path('',home,name="home"),
@@ -17,7 +17,13 @@ urlpatterns = [
     path('payment/', payment, name='payment'),
     path('payment-success/', payment_success, name='payment_success'),
     path("verify-payment/", verify_payment, name="verify_payment"),
-    path("student/<int:student_id>/", student_profile, name="student_profile"),
+    path('profile/', profile, name='profile'),
+    path('studentprofile/', studentprofile, name='studentprofile'),
+    path('addfeestructure/', addfeestructure, name='addfeestructure'),
+    path('viewfeestructure/', viewfeestructure, name='viewfeestructure'),
+    path('viewstructure/', viewstructure, name='viewstructure'),
+
+
 
 
 
